@@ -25,8 +25,11 @@
 ```
 即時台股面版/
 ├── 台股看板.html      # 前端主體（單一 HTML，無外部框架）
-├── server.js          # Node.js 本機伺服器 + TWSE API proxy
+├── server.js          # Node.js 本機伺服器 + TWSE API proxy（零 npm 依賴）
+├── package.json       # npm start 跨平台入口
 ├── 啟動看板.command   # macOS 雙擊啟動腳本
+├── start.sh           # Linux 啟動腳本
+├── start.bat          # Windows 啟動腳本
 ├── .gitignore
 └── README.md
 ```
