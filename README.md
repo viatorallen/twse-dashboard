@@ -27,7 +27,7 @@
 ├── 台股看板.html      # 前端主體（單一 HTML，無外部框架）
 ├── server.js          # Node.js 本機伺服器 + TWSE API proxy（零 npm 依賴）
 ├── package.json       # npm start 跨平台入口
-├── 啟動看板.command   # macOS 雙擊啟動腳本
+├── launch.command     # macOS 雙擊啟動腳本
 ├── start.sh           # Linux 啟動腳本
 ├── start.bat          # Windows 啟動腳本
 ├── .gitignore
@@ -46,7 +46,7 @@
 
 | 平台 | 方法 |
 |------|------|
-| **macOS** | 雙擊 `啟動看板.command` |
+| **macOS** | 雙擊 `launch.command` |
 | **Linux** | `chmod +x start.sh && ./start.sh` |
 | **Windows** | 雙擊 `start.bat` |
 | **任意平台** | `npm start` 或 `node server.js`，再開瀏覽器前往 `http://localhost:8888` |
