@@ -312,8 +312,8 @@ body {
   <div class="toolbar-section">
     <span class="t-label">更新間隔</span>
     <select class="t-select" id="isel" onchange="changeInterval()">
-      <option value="10000">10 秒</option>
-      <option value="30000" selected>30 秒</option>
+      <option value="10000" selected>10 秒</option>
+      <option value="30000">30 秒</option>
       <option value="60000">1 分鐘</option>
     </select>
   </div>
@@ -333,8 +333,7 @@ var MIS     = '/api/mis';
 var OPENAPI = '/api/openapi';
 var tickers = ['2330','2454','2317','0050','00878','2882','3008'];
 var prevPrices = {};
-var lastChange  = {};    // 最後一次漲跌值，供 sparkline tick 使用
-var priceHistory = {};   // { sym: [price, ...] }  最多保留 300 筆（5 分鐘 × 60 秒）
+var priceHistory = {};   // { sym: [price, ...] }  最多保留 300 筆
 var MAX_HIST = 300;
 var closeCache = null;
 var timer = null;
@@ -471,9 +470,6 @@ function updateCard(sym, name, price, change, pct, o, h, l) {
   cEl.className = 'change ' + cls;
   cEl.textContent = sign + change.toFixed(2) + '  (' + sign + pct.toFixed(2) + '%)';
 
-  // 記錄最後漲跌，供每秒 tick 使用
-  lastChange[sym] = change;
-
   // Sparkline & day range
   addHistory(sym, price);
   drawSparkline(sym, change);
@@ -573,7 +569,6 @@ function addTicker() {
 function removeTicker(sym) {
   tickers = tickers.filter(function(t) { return t !== sym; });
   delete prevPrices[sym];
-  delete lastChange[sym];
   delete priceHistory[sym];
   renderCards();
   if (tickers.length > 0) fetchAll();
@@ -587,19 +582,9 @@ document.getElementById('ti').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') addTicker();
 });
 
-// 每秒把「最後已知價格」追加進 sparkline，達到每秒動態更新
-setInterval(function() {
-  tickers.forEach(function(sym) {
-    var price = prevPrices[sym];
-    if (price === undefined) return;
-    addHistory(sym, price);
-    drawSparkline(sym, lastChange[sym] || 0);
-  });
-}, 1000);
-
 renderCards();
 fetchAll();
-timer = setInterval(fetchAll, 30000);
+timer = setInterval(fetchAll, 10000);
 </script>
 </body>
 </html>
