@@ -312,7 +312,8 @@ body {
   <div class="toolbar-section">
     <span class="t-label">更新間隔</span>
     <select class="t-select" id="isel" onchange="changeInterval()">
-      <option value="10000" selected>10 秒</option>
+      <option value="10000">10 秒</option>
+      <option value="15000" selected>15 秒</option>
       <option value="30000">30 秒</option>
       <option value="60000">1 分鐘</option>
     </select>
@@ -454,7 +455,9 @@ function updateCard(sym, name, price, change, pct, o, h, l) {
   if (!pEl) return;
 
   var old = prevPrices[sym];
-  if (old !== undefined && price !== old && card) {
+  var priceChanged = (old === undefined || price !== old);
+
+  if (priceChanged && old !== undefined && card) {
     card.classList.remove('fu','fd');
     void card.offsetWidth;
     card.classList.add(price > old ? 'fu' : 'fd');
@@ -470,9 +473,11 @@ function updateCard(sym, name, price, change, pct, o, h, l) {
   cEl.className = 'change ' + cls;
   cEl.textContent = sign + change.toFixed(2) + '  (' + sign + pct.toFixed(2) + '%)';
 
-  // Sparkline & day range
-  addHistory(sym, price);
-  drawSparkline(sym, change);
+  // 有新報價才推入歷史並重繪線圖
+  if (priceChanged) {
+    addHistory(sym, price);
+    drawSparkline(sym, change);
+  }
   updateDayRange(sym, price, l, h, change);
 
   if (moEl) moEl.textContent = fmtMeta(o);
@@ -523,7 +528,10 @@ function fetchAll() {
         tickers.forEach(function(sym) {
           var item = map[sym];
           if (!item) { showError(sym, '查無資料'); return; }
-          var price = parseFloat(item.z !== '-' ? item.z : item.y) || 0;
+          // item.z === '-' 代表本輪詢週期內無新成交，改用上次已知報價，避免退回昨收
+          var price = item.z !== '-'
+            ? parseFloat(item.z) || 0
+            : (prevPrices[sym] !== undefined ? prevPrices[sym] : parseFloat(item.y) || 0);
           var prev  = parseFloat(item.y) || 0;
           var chg   = price - prev;
           var pct   = prev ? (chg / prev) * 100 : 0;
@@ -589,7 +597,7 @@ document.getElementById('ti').addEventListener('keydown', function(e) {
 
 renderCards();
 fetchAll();
-timer = setInterval(fetchAll, 10000);
+timer = setInterval(fetchAll, 15000);
 </script>
 </body>
 </html>
