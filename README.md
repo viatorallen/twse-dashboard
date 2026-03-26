@@ -24,7 +24,8 @@
 
 ```
 即時台股面版/
-├── 台股看板.html      # 前端主體（單一 HTML，無外部框架）
+├── 台股看板.html      # 主版本（需搭配 server.js，支援所有瀏覽器）
+├── standalone.html    # 獨立版本（無需伺服器，需停用瀏覽器跨來源限制）
 ├── server.js          # Node.js 本機伺服器 + TWSE API proxy（零 npm 依賴）
 ├── package.json       # npm start 跨平台入口
 ├── launch.command     # macOS 雙擊啟動腳本
@@ -87,6 +88,77 @@ CORS 規範明確禁止 `null` origin 存取外部 API（即使 API 有 `*` head
 |-----|------|------|
 | [TWSE Open API](https://openapi.twse.com.tw) | 盤後全市場收盤資料 | 免費，無需金鑰 |
 | [TWSE MIS](https://mis.twse.com.tw) | 盤中即時報價 | 免費，無需金鑰 |
+
+---
+
+---
+
+## 無伺服器模式（standalone.html）
+
+不想啟動伺服器時，可直接雙擊開啟 `standalone.html`，
+但需先在瀏覽器停用跨來源限制。
+
+| 瀏覽器 | 支援 | 方法 |
+|--------|:----:|------|
+| **Safari** | ✅ | 選單 › 開發 › 停用跨來源限制 |
+| **Chrome** | ✅ | 命令列旗標（見下方） |
+| **Edge** | ✅ | 命令列旗標（見下方） |
+| **Firefox** | ❌ | 無內建支援，請改用伺服器模式 |
+
+### Safari
+
+```
+選單列 › 開發 › 停用跨來源限制（Disable Cross-Origin Restrictions）
+```
+
+> 若沒有「開發」選單：Safari 偏好設定 › 進階 › 勾選「在選單列顯示開發選單」
+
+---
+
+### Chrome — 停用跨來源限制
+
+> ⚠️ 必須額外指定 `--user-data-dir`，否則 Chrome 會忽略此旗標。
+
+**macOS**
+```bash
+open -na "Google Chrome" --args \
+  --disable-web-security \
+  --user-data-dir="/tmp/chrome-no-cors"
+```
+
+**Windows（命令提示字元）**
+```bat
+"C:\Program Files\Google\Chrome\Application\chrome.exe" ^
+  --disable-web-security ^
+  --user-data-dir="C:\Temp\chrome-no-cors"
+```
+
+**Linux**
+```bash
+google-chrome --disable-web-security \
+  --user-data-dir="/tmp/chrome-no-cors"
+```
+
+---
+
+### Edge — 停用跨來源限制
+
+**macOS**
+```bash
+open -na "Microsoft Edge" --args \
+  --disable-web-security \
+  --user-data-dir="/tmp/edge-no-cors"
+```
+
+**Windows（命令提示字元）**
+```bat
+"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" ^
+  --disable-web-security ^
+  --user-data-dir="C:\Temp\edge-no-cors"
+```
+
+> ⚠️ `--disable-web-security` 僅用於開啟本機 HTML，
+> 停用後請勿同時瀏覽其他網站，用完後關閉該視窗即可回到正常模式。
 
 ---
 
