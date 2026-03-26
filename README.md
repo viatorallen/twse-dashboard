@@ -38,26 +38,22 @@
 ### 需求
 
 - **Node.js ≥ 18**（[下載](https://nodejs.org)）
-- macOS（`.command` 腳本）或任何可執行 Node.js 的環境
 
-### 啟動（macOS）
+### 啟動方式
 
-雙擊 `啟動看板.command`，腳本會自動：
+| 平台 | 方法 |
+|------|------|
+| **macOS** | 雙擊 `啟動看板.command` |
+| **Linux** | `chmod +x start.sh && ./start.sh` |
+| **Windows** | 雙擊 `start.bat` |
+| **任意平台** | `npm start` 或 `node server.js`，再開瀏覽器前往 `http://localhost:8888` |
 
-1. 偵測 Node.js 是否安裝
+啟動腳本會自動：
+1. 確認 Node.js 已安裝
 2. 找到未被佔用的埠口（預設 8888）
-3. 啟動 `server.js`
-4. 開啟 Chrome 並前往 `http://localhost:PORT`
+3. 啟動伺服器並開啟瀏覽器
 
 > 關閉終端機視窗即停止伺服器。
-
-### 啟動（手動 / 跨平台）
-
-```bash
-cd 即時台股面版
-node server.js
-# 開啟瀏覽器前往 http://localhost:8888
-```
 
 ---
 
