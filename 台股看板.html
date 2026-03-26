@@ -15,10 +15,10 @@
   --text: #e8ebe6;
   --muted: #5a5f59;
   --muted2: #3a3f39;
-  --up: #4ade80;
-  --up-dim: rgba(74,222,128,0.08);
-  --dn: #f87171;
-  --dn-dim: rgba(248,113,113,0.08);
+  --up: #f87171;
+  --up-dim: rgba(248,113,113,0.08);
+  --dn: #4ade80;
+  --dn-dim: rgba(74,222,128,0.08);
   --accent: #a8c5a0;
   --mono: 'DM Mono', monospace;
   --sans: 'Noto Sans TC', sans-serif;
@@ -104,8 +104,8 @@ body {
 .card:hover { background: var(--surface2); }
 .card.fu { animation: fu .8s ease-out; }
 .card.fd { animation: fd .8s ease-out; }
-@keyframes fu { 0%{ background: rgba(74,222,128,.12); } 100%{ background: var(--surface); } }
-@keyframes fd { 0%{ background: rgba(248,113,113,.12); } 100%{ background: var(--surface); } }
+@keyframes fu { 0%{ background: rgba(248,113,113,.12); } 100%{ background: var(--surface); } }
+@keyframes fd { 0%{ background: rgba(74,222,128,.12); } 100%{ background: var(--surface); } }
 
 .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: .9rem; }
 .card-code {
@@ -419,7 +419,7 @@ function drawSparkline(sym, change) {
          ' ' + coords[i][0].toFixed(2) + ',' + coords[i][1].toFixed(2);
   }
 
-  var col = change > 0 ? '#4ade80' : change < 0 ? '#f87171' : '#5a5f59';
+  var col = change > 0 ? '#f87171' : change < 0 ? '#4ade80' : '#5a5f59';
   var gid = 'g' + sym;
   var areaD = d + 'L' + W + ',' + H + 'L0,' + H + 'Z';
 
