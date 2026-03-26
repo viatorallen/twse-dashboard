@@ -475,9 +475,9 @@ function updateCard(sym, name, price, change, pct, o, h, l) {
   drawSparkline(sym, change);
   updateDayRange(sym, price, l, h, change);
 
-  if (moEl) moEl.textContent = o || '—';
-  if (mhEl) mhEl.textContent = h || '—';
-  if (mlEl) mlEl.textContent = l || '—';
+  if (moEl) moEl.textContent = fmtMeta(o);
+  if (mhEl) mhEl.textContent = fmtMeta(h);
+  if (mlEl) mlEl.textContent = fmtMeta(l);
 }
 
 function showError(sym, msg) {
@@ -485,6 +485,11 @@ function showError(sym, msg) {
   var cEl = document.getElementById('ch-' + sym);
   if (pEl) { pEl.className = 'price'; pEl.textContent = '—'; }
   if (cEl) { cEl.className = 'change neu'; cEl.textContent = msg; }
+}
+
+function fmtMeta(v) {
+  var n = parseFloat(v);
+  return isNaN(n) ? '—' : n.toFixed(2);
 }
 
 function fetchJson(url, ms) {
